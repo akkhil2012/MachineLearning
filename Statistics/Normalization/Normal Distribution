@@ -1,0 +1,67 @@
+##### Knn Code ################
+rm(list=ls())
+# data1 <- read.csv("G:\\Srinath\\Datasets\\UniversalBank.csv")
+data1 <- read.csv("C:\\RExecises\\universalBank.csv")
+
+# length(unique(data1$ZIP.Code))
+#data1$ZIP.Code <- NULL
+
+
+str(data1)
+
+##dnorm(data1$Income,mean=252321, sd=1)
+
+
+
+hist(data1$Experience)
+
+
+############# After Normalization ################3
+
+
+
+
+fnNormalize = function(df){
+  for(i in 1:ncol(df)){
+    if(class(df[,i]) %in% c('numeric','integer')){
+      df[,i] = (df[,i] - min(df[,i]))/(max(df[,i])-min(df[,i]))
+    }
+  } 
+  return(df)
+}
+
+data1_dummy = fnNormalize(data1)
+
+
+hist(data1_dummy$Experience)
+
+
+
+##hist(data1$Income)
+
+###
+rows <- 1:nrow(data1)
+
+set.seed(344)
+
+train_rows<- sample(rows,3500)
+test_rows <- rows[-train_rows]
+
+train <- data1[train_rows,]
+test <- data1[test_rows,]
+
+prop.table(table(data1_dummy$Personal.Loan))
+prop.table(table(train$Personal.Loan))
+prop.table(table(test$Personal.Loan))
+
+
+
+
+
+## library(class)
+library(class)
+output = knn(train, test,k=60, cl= as.factor(train$Personal.Loan))
+
+table(test$Personal.Loan,output,dnn=c('actuals','preds'))
+
+
