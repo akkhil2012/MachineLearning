@@ -1,0 +1,33 @@
+##### Knn Code ################
+rm(list=ls())
+# data1 <- read.csv("G:\\Srinath\\Datasets\\UniversalBank.csv")
+data1 <- read.csv("C:\\RExecises\\universalBank.csv")
+
+
+
+# Simple Histogram
+hist(data1$Income,breaks = 10)
+
+# Simple Histogram : logrithmic 
+hist(log(data1$Income))
+
+
+## Simple Histogram : Square Root
+hist(sqrt(data1$Income))
+
+
+
+## plotting Ecperience with Income
+plot(data1$Experience, data1$Income)
+
+## lm : used to fit linear Regression
+fit1 = lm(Income ~ Experience, data=data1)
+fit1
+summary(fit1)
+abline(fit1,col ='blue')
+plot(fit1)
+
+
+#### residuals????
+hist(fit1$residuals, breaks=20)
+summary(fit1$residuals)
