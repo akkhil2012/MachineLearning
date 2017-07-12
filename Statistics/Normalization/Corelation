@@ -1,0 +1,46 @@
+##https://www.youtube.com/watch?v=igPQ-pI8Bjo
+
+##install.packages("RCurl")
+library(RCurl)
+
+adults <- read.csv("C:\\RExecises\\adult.csv")
+
+str(adults)
+
+
+##urlFile <- 'https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data'
+##x <- getURL(urlFile,ssl.verifypeer=FALSE)
+
+head(adults,3) 
+
+names(adults)
+
+adults$X..50K <- ifelse(adults$X..50K==' <=50K',0,1)
+
+## Corelation needs Numbers to operate on and NOT factors/categories
+
+
+str(adults)
+
+
+##install.packages("caret")
+##install.packages("dummies")
+library(caret)
+library(dummies)
+
+dmy <- dummyVars("~.", data = adults)
+
+
+
+adultsTrs = data.frame(predict(dmy,newdata=adults))#####???
+
+dim(adults)
+
+
+
+dim(adultsTrs)
+
+
+
+
+
