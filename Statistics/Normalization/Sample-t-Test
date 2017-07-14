@@ -1,0 +1,87 @@
+### One Sample Test in R
+lung <- read.csv("C:\\RExecises\\lung.csv")
+
+
+LungCapData <-read.delim(file = choose(),header = T)
+
+attach(LungCapData)
+
+##LungCapData <- read.csv("C:\\RExecises\\LungCapData.csv")
+
+str(LungCapData)
+
+LungCapNew <-as.numeric(as.character(LungCap))
+
+
+
+class(LungCapNew)
+
+boxplot(LungCapNew)
+
+
+
+### for sample t Test( One Sided)
+
+
+t.test(LungCapNew, mu = 8,alternative = "less",conf.level = 0.95 )
+
+### for sample t Test( Two Sided)## default in R
+
+t.test(LungCapNew, mu = 8,alternative = "two.sided",conf.level = 0.95)  ## 6.956177 8.258109
+
+TEST <-t.test(LungCapNew, mu = 8,alternative = "two.sided",conf.level = 0.99)  ## 6.740436 8.473849
+##?? How could increase in CI leads to wider range ??
+
+TEST
+
+
+########################### Assumptions in R 
+#Residual Standard Error : y - y^
+
+#Assumptions for Linear regression:
+  #Y and error are independent
+  #y as linear function of X
+  #variation of observations arounf regression line is constant
+  #for given X, Y value and eror are Normally Distributed
+
+## Residual Plot and Q-Q Plot???
+#residual plot explains the residuals/ error against the observations
+
+par(mfrow=c(2,2))
+
+plot(mod)
+
+numeric[39]
+
+par(mfrow=c(1,1))
+
+plot(x,y)???? NOT WORKING
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
