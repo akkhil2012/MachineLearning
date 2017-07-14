@@ -1,0 +1,53 @@
+## Resource : MarinStatsLectures
+
+# Linear Regression : Part 1
+lung <- read.csv("C:\\RExecises\\lung.csv")
+
+install.packages("XLConnect")
+library("XLConnect")
+
+LungCapData <-read.delim(file = choose(),header = T)
+
+attach(LungCapData)
+
+##LungCapData <- read.csv("C:\\RExecises\\LungCapData.csv")
+
+str(LungCapData)
+
+names(LungCapData)
+
+ageNew <-as.numeric(as.character(Age))
+
+LungCapNew <-as.numeric(as.character(LungCap))
+
+class(ageNew)
+
+class(LungCapNew)
+
+
+plot(LungCapNew,ageNew,main = "Scatterplot")
+
+
+
+
+mod <-lm(LungCapNew ~ ageNew)
+
+
+
+
+summary(mod)
+
+
+attributes(mod)
+
+
+
+mod$coefficients
+
+
+
+
+ab
+
+
+cor(Age,LungCap)
