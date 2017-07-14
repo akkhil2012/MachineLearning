@@ -12,9 +12,9 @@ str(LungCapData)
 
 LungCapNew <-as.numeric(as.character(LungCap))
 
+catHeight <-as.numeric(as.character(Height))
 
-
-class(LungCapNew)
+class(catHeight)
 
 boxplot(LungCapNew)
 
@@ -55,11 +55,27 @@ numeric[39]
 
 par(mfrow=c(1,1))
 
-plot(x,y)???? NOT WORKING
+##plot(x,y)???? NOT WORKING
+###======================================================================================
+
+#======================================================
+### Convert the Numeric data types to categorical
+#======================================================  
+
+CategoricalHeight <- cut(catHeight, breaks = 4,right = FALSE)
+
+CategoricalHeight[1:10]
 
 
+###===================================================
+##Dummy and Indicator variable
+#========================================================
+#dummy variable used to convert qualitative/categorical to numeric
+#dummy variable count = total categories - 1
 
+#dummy variable wil have a reference/baseline  category that appears first : say, A
 
+#thus mean of the transformed variable can be used
 
 
 
