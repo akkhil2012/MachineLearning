@@ -1,0 +1,29 @@
+## Bar charts in R for Categorical Variables
+
+
+#### Student
+
+## resource: https://www.youtube.com/watch?v=XaNKst8ODEQ
+
+lung <- read.csv("C:\\RExecises\\lung.csv")
+
+#student <- c(1,2,3)
+
+str(lung)
+
+names(lung)
+
+class(lung$reason)
+
+?barplot
+
+percent <-table(lung$sex)/228
+
+percent
+
+
+
+barplot(percent)
+
+
+barplot(percent,main="title",xlab="sex",ylab = "%")
