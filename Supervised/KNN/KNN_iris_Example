@@ -1,0 +1,115 @@
+#KNN Sample : iris
+  ### Category of the Species is to be determined from the parametrs as: Sepal length, Petal
+#https://www.youtube.com/watch?v=GtgJEVxl7DY&index=22&list=PLjPbBibKHH18I0mDb_H4uP3egypHIsvMn
+##  Target will be categorical BUT for the independent variable being numerical is prefered
+
+
+  
+data(iris)
+
+table(iris$Species)
+
+head(iris)
+
+### need to mix the observatiomns
+set.seed(9850)
+
+#gp <- runif(5)
+
+gp <- runif(nrow(iris))
+
+gp
+
+## to get the mixture 
+
+iris <- iris[order(gp),]
+
+str(iris)
+
+head(iris)
+
+head(iris,10)
+
+str(iris)
+### here the variables are all of different ranges
+## to verify hit below command
+summary(iris[,c(1,2,3,4)])
+
+## since the variables of wide range will have a more impact on prediction
+## This needs scaling and same could be accompalished by NORMALIZATION using  MINms MAX Algoriths
+## Alternatively, by using ZScore
+
+
+normalize <-function(x){return( (x - min(x)))/(max(x) - min(x))}
+
+normalize(c(1,2,3,4,5))
+
+#Alternatively:
+normalize(c(10,20,30,40,50))
+
+
+## Apply this normalize function to all features of flower: as sepal length , petal length ets
+
+iris_n <- as.data.frame(lapply(iris[,c(1,2,3,4)], normalize))
+
+str(iris_n)
+
+
+summary(iris_n)
+
+## https://www.youtube.com/watch?v=DkLNb0CXw84&index=22&list=PLjPbBibKHH18I0mDb_H4uP3egypHIsvMn
+
+
+## 10% observations for testingr
+str(iris)
+## out of 150 obser. 20 will be used for testing
+
+iris_train <- iris_n[1:139,]
+
+iris_train <- iris_n[1:129,]
+
+iris_test <- iris_n[130:150,]
+
+
+
+
+iris_train_target <-iris[1:129,5]
+
+iris_test_target <-iris[130:150,5]
+
+require(class)
+
+
+## First train model with the iris_train and iris_train_target
+sqrt(150)
+
+## prefer Odd Number
+
+ml <- knn(train = iris_train,test=iris_test,cl = iris_train_target, k = 13)
+
+ml
+
+### This outcome will be compared with the training data that was kept aside to be compared to see the performance of the KNN
+
+
+table(iris_test_target,ml)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
