@@ -1,0 +1,181 @@
+##RandomForest
+## Resources:
+## https://www.youtube.com/watch?v=nVMw7fTlj4o
+
+
+library(MASS)
+library(randomForest)
+
+set.seed(123)
+
+
+DataFrame <- birthwt
+
+
+str(DataFrame)
+
+dim(DataFrame)
+
+
+View(DataFrame)
+
+
+
+## low is target variable
+head(DataFrame,3)
+
+summary(DataFrame)
+
+
+## To Determine the Unique Values
+apply(DataFrame,2,function(x) length(unique(x)))
+
+hist(DataFrame$age)
+
+
+## RandomForest Makes Split on basis of the Factors so the Categorical DataSets to be moved to type factor
+## Convert the Numerical to -> Factors
+
+cols <-c("low","race","smoke","ptl","ht","ui","ftv")
+for(i in cols){
+  DataFrame[,i]=as.factor(DataFrame[,i])
+}
+
+str(DataFrame)
+
+## Library to split in training and testing dataSets
+library(caTools)
+ind <-sample.split(Y=DataFrame$low,SplitRatio = 0.7)
+trainDF <-DataFrame[ind,]
+testDf <-DataFrame[!ind,]
+
+
+
+##High Strength of Tree means High Accuracy OR LOW error
+#RandomForest Takes mtry as vale for the number of variables to be selected at each split to be fitted
+#to a sample
+
+# if regression: floor(number of variables/3 )
+# for classification: floor(sqroot of (numer of indept. variables))
+
+# Sample Size should be small as compared to the observation count
+# Optimization:
+    #mtry : if small than the chances of the number of variable taken for each split will be more unique hence better
+    # low mtry means low corelation of the indiviul tree but will have bad strngth i.e. can't predict that well as very less variables will
+    #be considered
+
+#Node size: number of tree Nodes / higher the number means lower the height/less numer of split
+
+
+##Fitting Model
+## ~. all other variables used as predictor variables
+modelRandom<- randomForest(low~.,data = trainDF,mtry=2,ntree=20)
+
+
+## Gini Index OR Entropy is used to make the Split
+modelRandom
+##OOB : Error / OO Bag Rate, lower the better
+
+
+varImpPlot(modelRandom)
+## Higher the valie of meanginidecrease: better the prediction after using that variable\\\\
+
+
+##Predictions
+PredictionsWithClass<- predict(modelRandom,testDf, type='class')
+t <-table(predictions=PredictionsWithClass,actual=testDf$low)
+
+
+
+##Accuracy Matrix
+sum(diag(t))/sum(t)
+
+
+library(pROC)
+
+PredictionsWithProbs<- predict(modelRandom,testDf, type='prob')
+auc<- auc(testDf$low,PredictionsWithProbs[,2])
+
+plot(roc(testDf$low,PredictionsWithProbs[,2]))
+## Sensitivity Vs Sensitivity
+## auc Vs Roc
+
+# if  categorical variables has many levels than random forest is baised towards that variable more in trees
+#iteration for best mtry
+bestmtry<-tuneRF(trainDF,trainDF$low,ntreeTry = 200,stepFactor = 1.2,improve = 0.01,trace=T,plot = T) 
+
+bestmtry
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## sample rows could be 2/3
+## good forest means high strength, low error and low mtry
+
+
+importance(modelRandom)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
