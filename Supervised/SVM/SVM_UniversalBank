@@ -1,0 +1,33 @@
+data1 = read.csv('C:\\RExecises\\universalBank.csv')
+str(data1)
+
+
+colsToFactors = c('ZIP.Code','Family','Education','Personal.Loan',
+                  'Securities.Account','CD.Account','Online','CreditCard')
+
+data1$ID = NULL
+data1$ZIP.Code = NULL
+## train test split
+rows = 1:nrow(data1)
+train_rows = sample(rows,round(0.8*nrow(data1)))
+test_rows = rows[-train_rows]
+
+train_data = data1[train_rows,]
+test_data = data1[test_rows,]
+
+
+str(train_data)
+
+train_data$Personal.Loan = as.factor(train_data$Personal.Loan)
+
+library(e1071)
+
+model =  svm(Personal.Loan~.,data=train_data,
+             kernel = 'radial',cost=10)#,degree = 3 only for polynomial
+
+preds = predict(model,test_data)
+
+table(preds,test_data$Personal.Loan,
+      dnn=c('preds','acts'))
+
+
