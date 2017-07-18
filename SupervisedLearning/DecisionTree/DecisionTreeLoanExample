@@ -1,24 +1,44 @@
+#Gini Split / Gini Index	Favors larger partitions. Very simple to implement.	CART
+#Information Gain / Entropy	Favors partitions that have small counts but many distinct values.	 ID3 / C4.5
+
+# http://www.learnbymarketing.com/481/decision-tree-flavors-gini-info-gain/
+
+install.packages("FSelector")
+
+
+#5000 obs. of  13 variables:
 data1 = read.csv('C:\\Users\\hp\\Downloads\\dataMerged.csv')
 str(data1)
 
-
+## convert the int type data/variables to factors
 colsToFactors = c('loan','online','securities','edu','family','cc','cd')
 for(i in colsToFactors){
   data1[,i] = as.factor(data1[,i])
 }
 
+str(data1)
+
 ## train test split
 rows = 1:nrow(data1)
-train_rows = sample(rows,round(0.8*nrow(data1)))
+train_rows = sample(rows,round(0.9*nrow(data1)))
 test_rows = rows[-train_rows]
+
+
 
 train_data = data1[train_rows,]
 test_data = data1[test_rows,]
 
+## print Observations for train and test data
+nrow(train_data)
+nrow(test_data)
+
 str(train_data)
 
-## decsionTree #CART
-library(rpart)
+#=========================== Model Building ======================================
+## decsionTree #CART --> uses Entropy
+               # I3--> uses GiniIndex
+library(rpart) #Recursive Partitioning and Regression Trees
+#===================================== CASE 1: Using CART : ENTROPY BASED==================================
 #model building
 dtree1 = rpart(loan ~.,data=train_data,control = c(cp=0.1))#control = c(cp=0.1)
 
@@ -28,20 +48,49 @@ plot(dtree1,main="Classification Tree for loan Class",
 text(dtree1,use.n=T)
 
 dtree1
+#===================================================================================
+
+
+
+###=========================== a user defined method ==============================
+info_process <-function(classes,splitvar = NULL){
+  #Assumes Splitvar is a logical vector
+  if (is.null(splitvar)){
+    base_prob <-table(classes)/length(classes)
+    return(-sum(base_prob*log(base_prob,2)))
+  }
+  base_prob <-table(splitvar)/length(splitvar)
+  crosstab <- table(classes,splitvar)
+  crossprob <- prop.table(crosstab,2)
+  No_Col <- crossprob[crossprob[,1]>0,1]
+  Yes_Col <- crossprob[crossprob[,2]>0,2]
+  No_Node_Info <- -sum(No_Col*log(No_Col,2))
+  Yes_Node_Info <- -sum(Yes_Col*log(Yes_Col,2))
+  return(sum(base_prob * c(No_Node_Info,Yes_Node_Info)))
+}
+
+#dtree1$inc.importance
+info_process(train_data$inc)
+info_process(train_data$family)
+info_process(train_data$edu)
+#======================================== custom method ends here ==================#
+
+
 
 #testing
-preds = predict(dtree1,test_data)
+preds = predict(dtree1,test_data) ## pass model and test data
 
-library(rpart.plot)
-rpart.plot(dtree1)
 
-dtree1$variable.importance
 View(preds)
 preds = as.data.frame(preds)
 
-preds$preds_Class = ifelse(preds$`1` > 0.5,1,0)
+preds
+
+preds$preds_Class = ifelse(preds$`1` > 0.5,1,0) ## if possibility is > 50% than consider as 1
 table(test_data$loan,preds$preds_Class,dnn=c('actuals','preds'))
 
+#===========================================================================================================
+#============================================ CASE 2: C50Package : Gini Index Based=========================
 ### 
 library(C50)
 
