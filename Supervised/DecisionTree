@@ -1,4 +1,41 @@
 
+NOTES:
+
+# Categorical are prefered for Decison Tree
+
+# Works By Splitting the attributes Parallel to axis
+
+# The Attribute with the maximum Information is to be Splitted first
+
+# Information gain:
+    - Entropy of system before Split - Entropy of System after Split
+    (sum of individual Entropie = system entropy)
+
+# Decision tree breaks/splits the tree on basis of the Information gain( on which attribute to split the tree on)
+   - Entropy(https://www.youtube.com/watch?v=AmCV4g7_-QM)
+   - gini Index
+   
+   
+#  Regression + classification(CART):
+  - Binary Split(Only Binary Split)
+  - Gini Index
+  
+# C5.0
+  - MultiSplit
+  - Infogain(Entropy)
+  
+  
+# Resolutiion for OverFitting:
+  - Pruning Tree
+          - Cost Complexity Pruning(in CART)
+          - Pessimistic Pruning(in C5.0)
+
+# MultiColiniearity NOT a concern in Decison Tree case
+  
+
+
+# Overfitting and Pruning
+
 install.packages("ctree")
 
 
