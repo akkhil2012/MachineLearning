@@ -1,0 +1,125 @@
+
+
+#### Student
+
+## resource: https://www.youtube.com/watch?v=XaNKst8ODEQ
+
+lung <- read.csv("C:\\RExecises\\lung.csv")
+
+#student <- c(1,2,3)
+
+str(lung)
+
+#================================ IRIS Sample ==========================
+# to predict how model will behave on test data ahead of using the test dataset actually
+## Divide the Training data set into 3 parts so:( K FOld Validations )
+  #1. train on A and B, test on C
+  #2. Train on B and C test on A
+  #3. Train on A and c test on B
+  
+  
+  #Take average of three to determine how it will behave
+
+
+
+## predictor variabes are 4 and target varoiable is specie
+
+
+##Leave one out cross validation ??
+
+
+library(MASS,quietly = TRUE)
+library(caret)
+
+DataFrame <- iris
+
+View(DataFrame)### 150 Observations
+
+
+
+str(DataFrame)
+
+
+summary(DataFrame)
+
+
+## partition data sets into train and test data set
+
+ind = createDataPartition(DataFrame$Species,p=2/3,list=FALSE)
+trainDF<- DataFrame[ind,]
+testDF<-DataFrame[-ind,]
+
+
+ControlParametrs <- trainControl(method = "cv",number=9,savePredictions = TRUE,classProbs = TRUE)
+# save the propability
+
+
+# method = "cv"( cross validation ),number=5( number of folds used for validation )
+
+parameterGrid <- expand.grid(mtry=c(0.1,0.2,0.3)) ## Model choosen to take random forest, with mtry as tunable parametr
+
+
+
+parameterGrid
+
+
+modelRandom <-train(Species~.,data=trainDF,method="rf",trControl = ControlParametrs,tuneGrid=parameterGrid)
+
+#method="rf" means random forest
+
+
+# how is sample size related????
+modelRandom
+
+
+
+
+
+## predictions
+predictions<-predict(modelRandom,testDF)
+
+predictions
+
+
+
+t <-table(predictions=predictions,actual=testDF$Species)
+
+t
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
