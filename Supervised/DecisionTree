@@ -3,6 +3,10 @@ NOTES:
 
 # Categorical are prefered for Decison Tree
 
+# Prefered for Analysis rather than for predictive Analysis
+
+# Similar to KNN( where NO training set is available so has overhead of testing though is NOT Unsupervised)
+
 # Works By Splitting the attributes Parallel to axis
 
 # The Attribute with the maximum Information is to be Splitted first
@@ -28,6 +32,7 @@ NOTES:
 # Resolutiion for OverFitting:
   - Pruning Tree
           - Cost Complexity Pruning(in CART)
+            - Higher the CART Value : less is Size of Tree
           - Pessimistic Pruning(in C5.0)
 
 # MultiColiniearity NOT a concern in Decison Tree case
@@ -35,6 +40,11 @@ NOTES:
 
 
 # Overfitting and Pruning
+
+
+# Ensembles:
+    To Club multiple Weak Models to make ONE Strong Build,
+    hence BAGGING
 
 install.packages("ctree")
 
